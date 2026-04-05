@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var b: ActivityMainBinding
     private lateinit var keywords: MutableList<String>
     private lateinit var keywordAdapter: ArrayAdapter<String>
-    private lateinit var whitelist: MutableList<String>
+
+    // Whitelist: package → label map
+    private lateinit var whitelistPkgs: MutableList<String>
     private lateinit var whitelistLabels: MutableList<String>
     private lateinit var whitelistAdapter: ArrayAdapter<String>
 
@@ -70,16 +72,11 @@ class MainActivity : AppCompatActivity() {
         b.listKeywords.adapter = keywordAdapter
 
         b.btnAdd.setOnClickListener { addKeywordDialog() }
-
         b.btnImportJson.setOnClickListener {
-            filePicker.launch(
-                Intent(Intent.ACTION_GET_CONTENT).apply {
-                    type = "*/*"
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                }
-            )
+            filePicker.launch(Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = "*/*"; addCategory(Intent.CATEGORY_OPENABLE)
+            })
         }
-
         b.listKeywords.setOnItemLongClickListener { _, _, pos, _ ->
             confirmDelete("\"${keywords[pos]}\"") {
                 keywords.removeAt(pos)
@@ -92,27 +89,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun addKeywordDialog() {
         val input = EditText(this).apply {
-            hint = "e.g. bad_word"
+            hint = "যেমন: hot dance"
             inputType = InputType.TYPE_CLASS_TEXT
             setPadding(48, 24, 48, 24)
         }
         AlertDialog.Builder(this)
-            .setTitle("Keyword যোগ করো")
+            .setTitle("🚫 Keyword যোগ করো")
             .setView(input)
             .setPositiveButton("যোগ করো") { _, _ ->
                 val w = input.text.toString().trim().lowercase()
                 when {
-                    w.isEmpty()           -> toast("খালি হলে হবে না!")
-                    keywords.contains(w)  -> toast("আগেই আছে")
+                    w.isEmpty()          -> toast("খালি হলে হবে না!")
+                    keywords.contains(w) -> toast("আগেই আছে")
                     else -> {
                         keywords.add(w)
                         keywordAdapter.notifyDataSetChanged()
                         KeywordService.saveKeywords(this, keywords)
+                        toast("✅ যোগ হয়েছে")
                     }
                 }
             }
-            .setNegativeButton("বাতিল", null)
-            .show()
+            .setNegativeButton("বাতিল", null).show()
     }
 
     private fun importJson(uri: Uri) {
@@ -120,121 +117,141 @@ class MainActivity : AppCompatActivity() {
             val raw = contentResolver.openInputStream(uri)?.use {
                 BufferedReader(InputStreamReader(it)).readText()
             } ?: return
-
             val arr = JSONArray(raw.trim())
             val imported = mutableListOf<String>()
             for (i in 0 until arr.length()) {
                 val w = arr.getString(i).trim().lowercase()
                 if (w.isNotBlank() && !keywords.contains(w)) imported.add(w)
             }
-
             if (imported.isEmpty()) { toast("কোনো নতুন keyword নেই"); return }
-
             AlertDialog.Builder(this)
                 .setTitle("${imported.size}টা import করবে?")
-                .setMessage(
-                    imported.take(8).joinToString(", ") +
-                    if (imported.size > 8) "... (+${imported.size - 8})" else ""
-                )
+                .setMessage(imported.take(8).joinToString(", ") +
+                    if (imported.size > 8) "... (+${imported.size - 8})" else "")
                 .setPositiveButton("Import করো") { _, _ ->
                     keywords.addAll(imported)
                     keywordAdapter.notifyDataSetChanged()
                     KeywordService.saveKeywords(this, keywords)
                     toast("✅ ${imported.size}টা add হয়েছে")
                 }
-                .setNegativeButton("বাতিল", null)
-                .show()
+                .setNegativeButton("বাতিল", null).show()
         } catch (e: Exception) {
-            toast("Format হওয়া দরকার: [\"word1\", \"word2\"]")
+            toast("Format: [\"word1\", \"word2\"]")
         }
     }
 
-    // ── Whitelist ─────────────────────────────────────────────────────────────
+    // ── Whitelist — FIXED ─────────────────────────────────────────────────────
 
     private fun setupWhitelist() {
-        whitelist = KeywordService.loadWhitelist(this)
-        whitelistLabels = whitelist.map { appLabel(it) }.toMutableList()
+        // Fresh load — pkg list ও label list sync করা
+        whitelistPkgs   = KeywordService.loadWhitelist(this)
+        whitelistLabels = whitelistPkgs.map { getAppLabel(it) }.toMutableList()
+
         whitelistAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, whitelistLabels)
         b.listWhitelist.adapter = whitelistAdapter
 
-        b.btnAddWhitelist.setOnClickListener { appPickerDialog() }
+        b.btnAddWhitelist.setOnClickListener { showAppPicker() }
 
         b.listWhitelist.setOnItemLongClickListener { _, _, pos, _ ->
-            confirmDelete("\"${whitelistLabels[pos]}\"") {
-                whitelist.removeAt(pos)
+            val label = whitelistLabels.getOrElse(pos) { "?" }
+            confirmDelete("\"$label\"") {
+                whitelistPkgs.removeAt(pos)
                 whitelistLabels.removeAt(pos)
                 whitelistAdapter.notifyDataSetChanged()
-                KeywordService.saveWhitelist(this, whitelist)
+                KeywordService.saveWhitelist(this, whitelistPkgs)
+                // service cache force refresh
+                KeywordService.instance?.whitelistCacheTime = 0L
+                toast("✅ সরানো হয়েছে")
             }
             true
         }
     }
 
-    private fun appPickerDialog() {
-        val pm = packageManager
+    private fun showAppPicker() {
+        val pm   = packageManager
         val apps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
-            .filter {
-                (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 ||
-                it.packageName == packageName
-            }
+            .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
             .sortedBy { pm.getApplicationLabel(it).toString().lowercase() }
+
+        if (apps.isEmpty()) { toast("কোনো app পাওয়া যায়নি"); return }
+
         val names = apps.map { pm.getApplicationLabel(it).toString() }.toTypedArray()
 
+        // Already whitelisted গুলো mark করো
+        val checked = apps.map { whitelistPkgs.contains(it.packageName) }.toBooleanArray()
+
         AlertDialog.Builder(this)
-            .setTitle("✅ Whitelist — এই app-এ block হবে না")
-            .setItems(names) { _, idx ->
-                val pkg   = apps[idx].packageName
-                val label = names[idx]
-                if (!whitelist.contains(pkg)) {
-                    whitelist.add(pkg)
-                    whitelistLabels.add(label)
-                    whitelistAdapter.notifyDataSetChanged()
-                    KeywordService.saveWhitelist(this, whitelist)
-                    toast("$label ✅ whitelist-এ যোগ হয়েছে")
-                } else {
-                    toast("ইতিমধ্যে whitelist-এ আছে")
-                }
+            .setTitle("✅ Whitelist-এ যোগ করো")
+            .setMultiChoiceItems(names, checked) { _, idx, isChecked ->
+                checked[idx] = isChecked
             }
+            .setPositiveButton("সেভ করো") { _, _ ->
+                var added = 0; var removed = 0
+                apps.forEachIndexed { idx, app ->
+                    val pkg   = app.packageName
+                    val label = names[idx]
+                    if (checked[idx] && !whitelistPkgs.contains(pkg)) {
+                        whitelistPkgs.add(pkg)
+                        whitelistLabels.add(label)
+                        added++
+                    } else if (!checked[idx] && whitelistPkgs.contains(pkg)) {
+                        val pos = whitelistPkgs.indexOf(pkg)
+                        whitelistPkgs.removeAt(pos)
+                        whitelistLabels.removeAt(pos)
+                        removed++
+                    }
+                }
+                whitelistAdapter.notifyDataSetChanged()
+                KeywordService.saveWhitelist(this, whitelistPkgs)
+                KeywordService.instance?.whitelistCacheTime = 0L
+                val msg = buildString {
+                    if (added   > 0) append("✅ $added টা যোগ হয়েছে")
+                    if (removed > 0) append(" • ❌ $removed টা সরানো হয়েছে")
+                }
+                if (msg.isNotBlank()) toast(msg)
+            }
+            .setNegativeButton("বাতিল", null)
             .show()
     }
 
     // ── Switches ──────────────────────────────────────────────────────────────
 
     private fun setupSwitches() {
-        // Master on/off
         b.switchEnabled.isChecked = KeywordService.isEnabled(this)
         b.switchEnabled.setOnCheckedChangeListener { _, c ->
             KeywordService.setEnabled(this, c)
         }
 
-        // Hard adult text/URL detection
         b.switchAdultText.isChecked = KeywordService.isAdultTextDetectEnabled(this)
         b.switchAdultText.setOnCheckedChangeListener { _, c ->
             KeywordService.setAdultTextDetect(this, c)
         }
 
-        // Soft adult — browser/video-তে suggestive content block
         b.switchSoftAdult.isChecked = KeywordService.isSoftAdultEnabled(this)
         b.switchSoftAdult.setOnCheckedChangeListener { _, c ->
             KeywordService.setSoftAdult(this, c)
+        }
+
+        b.switchVideoMeta.isChecked = KeywordService.isVideoMetaEnabled(this)
+        b.switchVideoMeta.setOnCheckedChangeListener { _, c ->
+            KeywordService.setVideoMeta(this, c)
         }
     }
 
     // ── Util ──────────────────────────────────────────────────────────────────
 
-    private fun confirmDelete(what: String, block: () -> Unit) {
-        AlertDialog.Builder(this)
-            .setTitle("$what মুছে ফেলবে?")
-            .setPositiveButton("হ্যাঁ, মোছো") { _, _ -> block() }
-            .setNegativeButton("না", null)
-            .show()
-    }
-
-    private fun appLabel(pkg: String) = try {
+    private fun getAppLabel(pkg: String) = try {
         packageManager.getApplicationLabel(
             packageManager.getApplicationInfo(pkg, 0)
         ).toString()
-    } catch (e: Exception) { pkg }
+    } catch (_: Exception) { pkg }
+
+    private fun confirmDelete(what: String, block: () -> Unit) {
+        AlertDialog.Builder(this)
+            .setTitle("$what সরাবে?")
+            .setPositiveButton("হ্যাঁ") { _, _ -> block() }
+            .setNegativeButton("না", null).show()
+    }
 
     private fun toast(msg: String) =
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()

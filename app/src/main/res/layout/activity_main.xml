@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F0F0F">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ══ Header ══ -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔒 Content Blocker"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚠️ Service বন্ধ"
+            android:textColor="#FF9800"
+            android:textSize="13sp"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btnAccessibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Accessibility Service চালু করো →"
+            android:backgroundTint="#1565C0"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="14dp"/>
+
+        <!-- ══ Section: Master Control ══ -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚙️  MAIN CONTROL"
+            android:textColor="#888888"
+            android:textSize="11sp"
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- Master switch -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="1dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blocking চালু/বন্ধ"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="সব ধরনের blocking এক সাথে চালু বা বন্ধ"
+                    android:textColor="#666666"
+                    android:textSize="11sp"/>
+            </LinearLayout>
+            <Switch
+                android:id="@+id/switchEnabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- ══ Section: Detection Settings ══ -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🛡️  DETECTION"
+            android:textColor="#888888"
+            android:textSize="11sp"
+            android:letterSpacing="0.1"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- Hard adult text/URL -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="1dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔞 Hard Adult Block"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Porn site, xxx keyword — সরাসরি adult content block"
+                    android:textColor="#666666"
+                    android:textSize="11sp"/>
+            </LinearLayout>
+            <Switch
+                android:id="@+id/switchAdultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Soft adult — browser/video only -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#1A2020"
+            android:padding="14dp"
+            android:layout_marginBottom="1dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌶️ Soft Adult Block"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="hot girl, item song, sexy dance — browser/video-তে এলেই block"
+                    android:textColor="#666666"
+                    android:textSize="11sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚠️ শুধু Browser ও Video app-এ কাজ করে"
+                    android:textColor="#FF8F00"
+                    android:textSize="10sp"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
+            <Switch
+                android:id="@+id/switchSoftAdult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- ══ Section: My Keywords ══ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🚫  আমার Keywords"
+                android:textColor="#888888"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"/>
+            <Button
+                android:id="@+id/btnImportJson"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="📂 JSON"
+                android:backgroundTint="#333333"
+                android:textColor="#CCCCCC"
+                android:paddingHorizontal="10dp"
+                android:textSize="11sp"
+                android:layout_marginEnd="6dp"/>
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="+ যোগ করো"
+                android:backgroundTint="#E65100"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="12dp"
+                android:textSize="11sp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Long press করে delete করো"
+            android:textColor="#444444"
+            android:textSize="10sp"
+            android:layout_marginBottom="4dp"/>
+
+        <ListView
+            android:id="@+id/listKeywords"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="#1A1A1A"
+            android:divider="#2A2A2A"
+            android:dividerHeight="1dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- ══ Section: Whitelist ══ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="✅  Whitelist"
+                android:textColor="#888888"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"/>
+            <Button
+                android:id="@+id/btnAddWhitelist"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="+ App যোগ করো"
+                android:backgroundTint="#1B5E20"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="12dp"
+                android:textSize="11sp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="এই app-গুলোতে কোনো block হবে না • Long press → remove"
+            android:textColor="#444444"
+            android:textSize="10sp"
+            android:layout_marginBottom="4dp"/>
+
+        <ListView
+            android:id="@+id/listWhitelist"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="#1A1A1A"
+            android:divider="#2A2A2A"
+            android:dividerHeight="1dp"/>
+
+        <!-- Footer tip -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💡 Accessibility ON করলেই সব কাজ শুরু হবে।\nSoft Adult Block চালু থাকলে browser ও video app-এ hot/sexy/item song ধরনের content এলেই বন্ধ হয়ে যাবে।"
+            android:textColor="#333333"
+            android:textSize="11sp"
+            android:lineSpacingExtra="3dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="8dp"/>
+
+    </LinearLayout>
+</ScrollView>

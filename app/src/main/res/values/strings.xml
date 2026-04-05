@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Content Blocker</string>
+    <string name="service_label">Content Blocker Service</string>
+    <string name="service_desc">স্ক্রিনের text monitor করে adult ও suggestive content block করে।</string>
+</resources>

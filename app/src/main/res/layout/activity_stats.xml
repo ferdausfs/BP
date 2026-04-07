@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0A0A0A">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#141414"
+        android:padding="16dp">
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="← Back"
+            android:backgroundTint="#2A2A2A"
+            android:textColor="#CCCCCC"
+            android:textSize="12sp"
+            android:paddingHorizontal="12dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="📊 Block History"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/btnClearLog"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="🗑️ Clear"
+            android:backgroundTint="#B71C1C"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:paddingHorizontal="12dp"/>
+    </LinearLayout>
+
+    <!-- Stats summary -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#1A1A1A"
+        android:padding="16dp"
+        android:layout_marginBottom="4dp">
+        <TextView
+            android:id="@+id/tvTodayCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="আজকে: 0 বার"
+            android:textColor="#4CAF50"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvTotalCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="মোট: 0 টা"
+            android:textColor="#888888"
+            android:textSize="14sp"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <!-- Log list -->
+    <ListView
+        android:id="@+id/listBlockLog"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#1A1A1A"
+        android:dividerHeight="2dp"/>
+
+</LinearLayout>

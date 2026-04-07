@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#0A0A0A">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp">
+
+        <!-- Header -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+            <Button android:id="@+id/btnBack" android:layout_width="wrap_content"
+                android:layout_height="36dp" android:text="← Back"
+                android:backgroundTint="#2A2A2A" android:textColor="#CCC"
+                android:textSize="12sp" android:paddingHorizontal="12dp"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="🤖 AI Model Settings"
+                android:textColor="#FFFFFF" android:textSize="18sp"
+                android:textStyle="bold" android:gravity="center"/>
+        </LinearLayout>
+
+        <!-- Model Status Card -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#1A1A1A"
+            android:padding="16dp" android:layout_marginBottom="12dp">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="ACTIVE MODEL" android:textColor="#666666"
+                android:textSize="10sp" android:letterSpacing="0.12"
+                android:layout_marginBottom="6dp"/>
+
+            <TextView android:id="@+id/tvModelName"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="কোনো model নেই" android:textColor="#FFFFFF"
+                android:textSize="16sp" android:textStyle="bold"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView android:id="@+id/tvModelStatus"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="❌ কোনো model নেই" android:textColor="#FF5252"
+                android:textSize="12sp" android:layout_marginBottom="6dp"/>
+
+            <TextView android:id="@+id/tvModelInfo"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="" android:textColor="#777777" android:textSize="11sp"
+                android:lineSpacingExtra="3dp"/>
+        </LinearLayout>
+
+        <!-- AI Scan Switch -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="#1A2A1A" android:padding="14dp"
+            android:layout_marginBottom="1dp">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="🤖 AI Image Scan" android:textColor="#EEEEEE"
+                    android:textSize="14sp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Screenshot নিয়ে AI দিয়ে adult image detect করে"
+                    android:textColor="#555555" android:textSize="10sp" android:layout_marginTop="2dp"/>
+                <!-- ★ Updated: ৩ সেকেন্ড → ৫০০ms -->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="প্রতি ৫০০ms এ scan • শুধু browser/video • সম্পূর্ণ offline"
+                    android:textColor="#2E7D32" android:textSize="10sp" android:layout_marginTop="1dp"/>
+            </LinearLayout>
+            <Switch android:id="@+id/switchAiScan"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Model Type -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="#1A1A1A" android:padding="14dp"
+            android:layout_marginBottom="1dp">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Model Type" android:textColor="#EEEEEE" android:textSize="13sp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Model কোন ধরনের output দেয়"
+                    android:textColor="#555555" android:textSize="10sp" android:layout_marginTop="2dp"/>
+            </LinearLayout>
+            <Spinner android:id="@+id/spinnerModelType"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:backgroundTint="#666666"/>
+        </LinearLayout>
+
+        <!-- Threshold -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#1A1A1A"
+            android:padding="14dp" android:layout_marginBottom="12dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:layout_marginBottom="4dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="Block Threshold (SUM mode)"
+                    android:textColor="#EEEEEE" android:textSize="13sp"/>
+                <TextView android:id="@+id/tvThreshold"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="60%" android:textColor="#4CAF50"
+                    android:textSize="16sp" android:textStyle="bold"/>
+            </LinearLayout>
+            <!-- ★ SUM mode description -->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="5-class: hentai+porn+sexy এর যোগফল এই % এর বেশি হলে block"
+                android:textColor="#444444" android:textSize="9sp"
+                android:layout_marginBottom="8dp"/>
+            <SeekBar android:id="@+id/seekThreshold"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:max="100" android:progress="60"
+                android:progressTint="#4CAF50" android:thumbTint="#4CAF50"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:layout_marginTop="4dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="10% — সব কিছুতে block (false positive বেশি)"
+                    android:textColor="#444444" android:textSize="9sp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="100% — শুধু নিশ্চিত" android:textColor="#444444" android:textSize="9sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Buttons -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="  📦 MODEL MANAGEMENT" android:textColor="#666666"
+            android:textSize="10sp" android:letterSpacing="0.12"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- Progress -->
+        <ProgressBar android:id="@+id/progressBar"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center" android:visibility="gone"
+            android:layout_marginBottom="4dp"/>
+        <TextView android:id="@+id/tvProgress"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="" android:textColor="#888888" android:textSize="12sp"
+            android:gravity="center" android:visibility="gone"
+            android:layout_marginBottom="8dp"/>
+
+        <Button android:id="@+id/btnImportModel"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="📂 Model Import করো (.tflite file)"
+            android:backgroundTint="#1565C0" android:textColor="#FFFFFF"
+            android:textSize="13sp" android:layout_marginBottom="4dp"/>
+
+        <Button android:id="@+id/btnDownloadInfo"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="📥 Model কোথায় পাবো? (Download guide)"
+            android:backgroundTint="#1B5E20" android:textColor="#FFFFFF"
+            android:textSize="12sp" android:layout_marginBottom="4dp"/>
+
+        <Button android:id="@+id/btnTestScan"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="🔬 Test Scan করো"
+            android:backgroundTint="#4A148C" android:textColor="#FFFFFF"
+            android:textSize="12sp" android:layout_marginBottom="4dp"
+            android:visibility="gone"/>
+
+        <Button android:id="@+id/btnRemoveModel"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="🗑️ Custom Model সরাও"
+            android:backgroundTint="#B71C1C" android:textColor="#FFFFFF"
+            android:textSize="12sp" android:visibility="gone"/>
+
+        <!-- Info box -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#111111"
+            android:padding="12dp" android:layout_marginTop="12dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="💡 কীভাবে কাজ করে:" android:textColor="#444444"
+                android:textSize="11sp" android:textStyle="bold" android:layout_marginBottom="4dp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="• প্রতি ৫০০ms এ screen এর screenshot নেয়\n• শুধু browser ও video app এ scan করে (CPU বাঁচায়)\n• TensorFlow Lite দিয়ে locally analyze করে\n• Data কোথাও যায় না — সম্পূর্ণ offline\n• SUM mode: hentai+porn+sexy এর যোগফল দিয়ে judge করে\n• Adult image detect হলে সাথে সাথে app close করে\n• যেকোনো .tflite model swap করা যাবে"
+                android:textColor="#333333" android:textSize="10sp"
+                android:lineSpacingExtra="3dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#0A0A0A">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="🔒 Content Blocker" android:textColor="#FFFFFF"
+            android:textSize="20sp" android:textStyle="bold" android:layout_marginBottom="4dp"/>
+
+        <!-- Stats preview -->
+        <TextView android:id="@+id/tvStatsPreview"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="আজকে 0 বার block" android:textColor="#555555"
+            android:textSize="11sp" android:layout_marginBottom="12dp"/>
+
+        <!-- ══ PERMISSIONS ══ -->
+        <TextView style="@style/SectionLabel" android:text="  ⚙️ PERMISSIONS"/>
+
+        <LinearLayout style="@style/RowCard" android:layout_marginBottom="1dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="♿ Accessibility Service"/>
+                <TextView android:id="@+id/tvStatus" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="⚠️ বন্ধ"
+                    android:textColor="#FF9800" android:textSize="11sp" android:layout_marginTop="2dp"/>
+            </LinearLayout>
+            <Button android:id="@+id/btnAccessibility" android:layout_width="wrap_content"
+                android:layout_height="34dp" android:text="চালু করো"
+                android:backgroundTint="#1565C0" android:textColor="#FFF"
+                android:textSize="11sp" android:paddingHorizontal="12dp"/>
+        </LinearLayout>
+
+        <LinearLayout style="@style/RowCard" android:layout_marginBottom="1dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="🛡️ Admin Protection"/>
+                <TextView android:id="@+id/tvAdminStatus" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="⚠️ বন্ধ"
+                    android:textColor="#FF9800" android:textSize="11sp" android:layout_marginTop="2dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="vertical" android:gravity="end">
+                <Button android:id="@+id/btnAdminEnable" android:layout_width="wrap_content"
+                    android:layout_height="34dp" android:text="চালু করো"
+                    android:backgroundTint="#4A148C" android:textColor="#FFF"
+                    android:textSize="11sp" android:paddingHorizontal="12dp"/>
+                <Button android:id="@+id/btnAdminDisable" android:layout_width="wrap_content"
+                    android:layout_height="34dp" android:text="বন্ধ করো"
+                    android:backgroundTint="#333" android:textColor="#AAA"
+                    android:textSize="11sp" android:paddingHorizontal="12dp" android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/RowCard" android:layout_marginBottom="12dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="🔔 Notification Access"/>
+                <TextView android:id="@+id/tvNotifStatus" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="⚠️ বন্ধ"
+                    android:textColor="#FF9800" android:textSize="11sp" android:layout_marginTop="2dp"/>
+                <TextView style="@style/RowSub" android:text="Video-র hidden title ধরতে দরকার"/>
+            </LinearLayout>
+            <Button android:id="@+id/btnNotifAccess" android:layout_width="wrap_content"
+                android:layout_height="34dp" android:text="চালু করো"
+                android:backgroundTint="#00695C" android:textColor="#FFF"
+                android:textSize="11sp" android:paddingHorizontal="12dp"/>
+        </LinearLayout>
+
+        <!-- ══ DETECTION ══ -->
+        <TextView style="@style/SectionLabel" android:text="  🛡️ DETECTION"/>
+
+        <LinearLayout style="@style/RowCard" android:layout_marginBottom="1dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="Blocking চালু / বন্ধ"/>
+                <TextView style="@style/RowSub" android:text="সব ধরনের blocking একসাথে"/>
+            </LinearLayout>
+            <Switch android:id="@+id/switchEnabled"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout style="@style/RowCard" android:layout_marginBottom="1dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="🔞 Hard Adult Block"/>
+                <TextView style="@style/RowSub" android:text="Porn, xxx — সরাসরি adult site ও keyword"/>
+            </LinearLayout>
+            <Switch android:id="@+id/switchAdultText"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout style="@style/RowCard" android:background="#0F1F1F" android:layout_marginBottom="1dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="🌶️ Soft Adult Block"/>
+                <TextView style="@style/RowSub" android:text="hot girl, item song — browser ও video-এ"/>
+            </LinearLayout>
+            <Switch android:id="@+id/switchSoftAdult"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout style="@style/RowCard" android:background="#0A1A0A" android:layout_marginBottom="12dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="🎬 Video Metadata Check"/>
+                <TextView style="@style/RowSub" android:text="Video title, tag, hashtag — text না থাকলেও"/>
+            </LinearLayout>
+            <Switch android:id="@+id/switchVideoMeta"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- ══ ADVANCED ══ -->
+        <TextView style="@style/SectionLabel" android:text="  ⚡ ADVANCED"/>
+
+        <!-- PIN Lock -->
+        <LinearLayout style="@style/RowCard" android:layout_marginBottom="1dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="🔑 Settings PIN Lock"/>
+                <TextView android:id="@+id/tvPinStatus" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="⚠️ PIN নেই"
+                    android:textColor="#FF9800" android:textSize="11sp" android:layout_marginTop="2dp"/>
+                <TextView style="@style/RowSub" android:text="Settings পরিবর্তন করতে PIN লাগবে"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="vertical" android:gravity="end">
+                <Button android:id="@+id/btnPinSet" android:layout_width="wrap_content"
+                    android:layout_height="30dp" android:text="PIN সেট"
+                    android:backgroundTint="#E65100" android:textColor="#FFF"
+                    android:textSize="10sp" android:paddingHorizontal="10dp"/>
+                <Button android:id="@+id/btnPinRemove" android:layout_width="wrap_content"
+                    android:layout_height="30dp" android:text="সরাও"
+                    android:backgroundTint="#333" android:textColor="#AAA"
+                    android:textSize="10sp" android:paddingHorizontal="10dp"
+                    android:visibility="gone" android:layout_marginTop="2dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Schedule -->
+        <LinearLayout style="@style/RowCard" android:layout_marginBottom="1dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="⏰ Time Schedule"/>
+                <TextView style="@style/RowSub" android:text="নির্দিষ্ট সময়ের বাইরে browser/video block"/>
+                <TextView android:id="@+id/tvScheduleTime" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text=""
+                    android:textColor="#4CAF50" android:textSize="11sp"
+                    android:visibility="gone" android:layout_marginTop="2dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <Button android:id="@+id/btnScheduleEdit" android:layout_width="wrap_content"
+                    android:layout_height="30dp" android:text="✏️"
+                    android:backgroundTint="#333" android:textColor="#AAA"
+                    android:paddingHorizontal="8dp" android:layout_marginEnd="6dp"/>
+                <Switch android:id="@+id/switchSchedule"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ★ FIX: Usage Limit — Switch যোগ করা হয়েছে (আগে ছিল না, তাই limit কাজ করতো না) -->
+        <LinearLayout style="@style/RowCard" android:layout_marginBottom="1dp">
+            <LinearLayout style="@style/RowText">
+                <TextView style="@style/RowTitle" android:text="⏱️ Daily Usage Limit"/>
+                <TextView style="@style/RowSub" android:text="Browser/video app দিনে কতক্ষণ চলবে"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <Button android:id="@+id/btnUsageLimits" android:layout_width="wrap_content"
+                    android:layout_height="30dp" android:text="Set করো"
+                    android:backgroundTint="#1B5E20" android:textColor="#FFF"
+                    android:textSize="10sp" android:paddingHorizontal="10dp"
+                    android:layout_marginEnd="8dp"/>
+                <Switch android:id="@+id/switchUsageLimitEnabled"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Stats + Panic -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginBottom="12dp">
+            <Button android:id="@+id/btnViewStats" android:layout_width="0dp"
+                android:layout_height="40dp" android:layout_weight="1"
+                android:text="📊 Block History" android:backgroundTint="#1A237E"
+                android:textColor="#FFF" android:textSize="12sp" android:layout_marginEnd="6dp"/>
+            <Button android:id="@+id/btnPanic" android:layout_width="0dp"
+                android:layout_height="40dp" android:layout_weight="1"
+                android:text="⏸️ ৩০ মিনিট বন্ধ" android:backgroundTint="#37474F"
+                android:textColor="#FFF" android:textSize="12sp"/>
+        </LinearLayout>
+
+        <!-- AI Model -->
+        <Button android:id="@+id/btnAiModel"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="🤖 AI Image Scan (Model Settings)"
+            android:backgroundTint="#1A237E"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- ══ KEYWORDS ══ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+            <TextView style="@style/SectionLabel" android:layout_width="0dp"
+                android:layout_weight="1" android:text="  🚫 আমার Keywords"/>
+            <Button android:id="@+id/btnImportJson" android:layout_width="wrap_content"
+                android:layout_height="28dp" android:text="📂 JSON"
+                android:backgroundTint="#2A2A2A" android:textColor="#AAA"
+                android:paddingHorizontal="8dp" android:textSize="10sp" android:layout_marginEnd="4dp"/>
+            <Button android:id="@+id/btnAdd" android:layout_width="wrap_content"
+                android:layout_height="28dp" android:text="+ যোগ"
+                android:backgroundTint="#BF360C" android:textColor="#FFF"
+                android:paddingHorizontal="10dp" android:textSize="10sp"/>
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="সব app-এ এই keyword দেখলে block • Long press → মুছো"
+            android:textColor="#3A3A3A" android:textSize="10sp" android:layout_marginBottom="4dp"/>
+        <ListView android:id="@+id/listKeywords" android:layout_width="match_parent"
+            android:layout_height="130dp" android:background="#141414"
+            android:divider="#1E1E1E" android:dividerHeight="1dp" android:layout_marginBottom="12dp"/>
+
+        <!-- ══ WHITELIST ══ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+            <TextView style="@style/SectionLabel" android:layout_width="0dp"
+                android:layout_weight="1" android:text="  ✅ Whitelist"/>
+            <Button android:id="@+id/btnAddWhitelist" android:layout_width="wrap_content"
+                android:layout_height="28dp" android:text="✏️ Edit"
+                android:backgroundTint="#1B5E20" android:textColor="#FFF"
+                android:paddingHorizontal="10dp" android:textSize="10sp"/>
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="এই app-গুলোতে block হবে না • Long press → সরাও"
+            android:textColor="#3A3A3A" android:textSize="10sp" android:layout_marginBottom="4dp"/>
+        <ListView android:id="@+id/listWhitelist" android:layout_width="match_parent"
+            android:layout_height="130dp" android:background="#141414"
+            android:divider="#1E1E1E" android:dividerHeight="1dp"/>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="💡 Admin ON → uninstall করা যাবে না  •  PIN ON → settings lock  •  Schedule ON → নির্দিষ্ট সময়ে block"
+            android:textColor="#222222" android:textSize="10sp" android:lineSpacingExtra="3dp"
+            android:layout_marginTop="10dp" android:layout_marginBottom="8dp"/>
+
+    </LinearLayout>
+</ScrollView>
